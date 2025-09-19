@@ -1,0 +1,69 @@
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.Random;
+
+public class Quiz{
+    public static void main(String[] args){
+        //1. mappe spørgsmål til svar
+        //2. loope over spørgsmål
+        //3. læse brugerens svar og give point hvis rigtigt
+        //4. stoppe når der ikke er flere spørgsmål, og vise point
+
+        //MULIGE UDVIDELSER:
+        //Gentag spørgsmål hvis man får dem forkert
+        //Vælg spørgsmål i tilfældig rækkefølge
+        //Giv det rigtige svar, hvis du får det forkert ("forkert! Det rigtige svar var <...>")
+
+        int score = 0;
+        Scanner s = new Scanner(System.in);
+        HashMap<String, String> hints = new HashMap<>(); //<Key, Value> "Ki-wi"
+        Random r = new Random();
+
+        hints.put("Det her dyr har størst chance for at blive ramtaf lyn", "giraf");
+        hints.put("Det her dyr DØR hvis den spiser noget, den ikke ka tåle", "hest");
+        hints.put("En fugl der larmer", "undulat");
+        hints.put("menneskets bedste ven", "hund");
+
+        //tilføj spørgsmål til liste
+        ArrayList<String> questions = new ArrayList<>();
+        for (String q : hints.keySet()){
+            questions.add(q);
+        }
+
+        int amount = questions.size();
+        System.out.println("Se om du kan gætte dyrene. Klik enter for at starte!");
+        
+        //game loop
+        if(s.nextLine() == ""){
+            while(questions.size() > 0){
+                String q = questions.get(r.nextInt(questions.size()));
+                String a = hints.get(q);
+
+                boolean askAgain = true;
+                System.out.println(q);
+
+                if (s.nextLine().equalsIgnoreCase(a)){
+                    System.out.println("Rigtigt !! yay !!");
+                    score++;
+                    questions.remove(q);
+                } else{
+                    System.out.println("Forkert !! womp wooomp. Prøv igen");
+                }
+
+                System.out.println("--------------------");
+                System.out.println();//linjeskift
+            }
+        }
+
+        System.out.println("spillet er slut! du fik " + score + " rigtige ud af " + amount);
+
+        if(score < 1){
+            System.out.print("HA ! STOOPID!");
+        } else if(score == amount){
+            System.out.print("Wow, du er virkelig klog og sej. Godt lavet");
+        } else{
+            System.out.println("ik dårligt");
+        }
+    }
+}
